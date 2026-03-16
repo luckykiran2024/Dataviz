@@ -853,3 +853,49 @@ html, body {
   padding: 10px; background: var(--bg-elevated);
   border-radius: var(--radius-sm);
 }
+
+/* ============================================================
+   PIVOT TABLE STYLES
+   ============================================================ */
+.pivot-table-container {
+  width: 100%; height: 100%; overflow: auto;
+  border-radius: var(--radius-sm); border: 1px solid var(--border);
+  background: var(--bg-surface);
+}
+
+.pivot-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 13px; text-align: left;
+}
+
+.pivot-table thead th {
+  position: sticky; top: 0; z-index: 2;
+  background: var(--bg-elevated); color: var(--text-primary);
+  font-weight: 600; padding: 10px 14px;
+  border-bottom: 2px solid var(--border);
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.pivot-table tbody td {
+  padding: 10px 14px; border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.pivot-table tbody tr:hover td {
+  background: var(--bg-hover); color: var(--text-primary);
+}
+
+.pivot-row-header {
+  position: sticky; left: 0; z-index: 1;
+  background: var(--bg-surface); font-weight: 500;
+  border-right: 1px solid var(--border);
+  color: var(--text-primary) !important;
+}
+
+.pivot-table tbody tr:hover .pivot-row-header {
+  background: var(--bg-hover);
+}
+

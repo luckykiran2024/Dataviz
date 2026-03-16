@@ -4,7 +4,7 @@
 import { renderers } from './renderers.js';
 
 const SCATTER_TYPES = new Set(['scatter', 'bubble']);
-const NO_AXIS_TYPES = new Set(['pie', 'donut', 'gauge', 'treemap']);
+const NO_AXIS_TYPES = new Set(['pie', 'donut', 'gauge', 'treemap', 'pivot']);
 
 export function isScatterType(type) {
   return SCATTER_TYPES.has(type);
@@ -47,4 +47,5 @@ export const CHART_TYPES = [
   { id: 'gauge', name: 'Gauge', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M4 16a8 8 0 1116 0"/><path d="M12 16V10" stroke-width="2"/></svg>' },
   { id: 'treemap', name: 'Treemap', icon: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="9" height="12" rx="1" opacity="0.8"/><rect x="13" y="2" width="9" height="7" rx="1" opacity="0.6"/><rect x="13" y="11" width="9" height="3" rx="1" opacity="0.4"/><rect x="2" y="16" width="5" height="6" rx="1" opacity="0.5"/><rect x="9" y="16" width="13" height="6" rx="1" opacity="0.3"/></svg>' },
   { id: 'heatmap', name: 'Heatmap', icon: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="6" height="6" rx="1" opacity="0.3"/><rect x="9" y="2" width="6" height="6" rx="1" opacity="0.8"/><rect x="16" y="2" width="6" height="6" rx="1" opacity="0.5"/><rect x="2" y="9" width="6" height="6" rx="1" opacity="0.9"/><rect x="9" y="9" width="6" height="6" rx="1" opacity="0.4"/><rect x="16" y="9" width="6" height="6" rx="1" opacity="0.7"/><rect x="2" y="16" width="6" height="6" rx="1" opacity="0.6"/><rect x="9" y="16" width="6" height="6" rx="1" opacity="0.2"/><rect x="16" y="16" width="6" height="6" rx="1" opacity="1"/></svg>' },
+  { id: 'pivot', name: 'Pivot Table', icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16v2H4V4zm0 4h4v12H4V8zm6 0h10v3H10V8zm0 4.5h10v3H10v-3zm0 4.5h10v3H10v-3z"/></svg>' },
 ];

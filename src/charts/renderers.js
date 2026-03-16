@@ -533,6 +533,78 @@ export function renderHeatmap(container, data) {
     .text(d => d.length > 10 ? d.slice(0, 10) + '…' : d);
 }
 
+export function renderPivotTable(container, data) {
+  destroyPrevious(container);
+  if (!data || !data.datasets || data.datasets.length === 0) return;
+
+  // The labels are our Row Groups (X Axis)
+  const rows = data.labels || [];
+  
+  // The datasets represent our Columns/Values
+  const columns = data.datasets;
+
+  const table = document.createElement('table');
+  table.className = 'pivot-table';
+
+  // Build Header
+  const thead = document.createElement('thead');
+  const trHead = document.createElement('tr');
+  
+  // Empty top-left cell if we have row labels
+  if (rows.length > 0) {
+    const thCorner = document.createElement('th');
+    thCorner.textContent = 'Group / Category';
+    trHead.appendChild(thCorner);
+  }
+
+  columns.forEach(col => {
+    const th = document.createElement('th');
+    th.textContent = col.label || 'Value';
+    th.style.textAlign = 'right';
+    trHead.appendChild(th);
+  });
+  
+  thead.appendChild(trHead);
+  table.appendChild(thead);
+
+  // Build Body
+  const tbody = document.createElement('tbody');
+  
+  // Get maximum number of data points
+  const rowCount = Math.max(rows.length, ...columns.map(c => c.data.length));
+
+  for (let i = 0; i < rowCount; i++) {
+    const tr = document.createElement('tr');
+    
+    if (rows.length > 0) {
+      const tdRowLabel = document.createElement('td');
+      tdRowLabel.className = 'pivot-row-header';
+      tdRowLabel.textContent = rows[i] || '';
+      tr.appendChild(tdRowLabel);
+    }
+    
+    columns.forEach(col => {
+      const td = document.createElement('td');
+      const val = col.data[i];
+      // Format numbering nicely
+      td.textContent = typeof val === 'number' ? val.toLocaleString(undefined, { maximumFractionDigits: 2 }) : (val ?? '-');
+      td.style.textAlign = 'right';
+      tr.appendChild(td);
+    });
+    
+    tbody.appendChild(tr);
+  }
+  
+  table.appendChild(tbody);
+
+  // Wrap in scrollable container
+  const wrapper = document.createElement('div');
+  wrapper.className = 'pivot-table-container';
+  wrapper.appendChild(table);
+
+  container.appendChild(wrapper);
+}
+
 /* ---------- Renderer Map ---------- */
 export const renderers = {
   bar: renderBar,
@@ -547,4 +619,5 @@ export const renderers = {
   gauge: renderGauge,
   treemap: renderTreemap,
   heatmap: renderHeatmap,
+  pivot: renderPivotTable,
 };
