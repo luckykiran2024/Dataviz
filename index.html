@@ -96,6 +96,9 @@
                 <div class="field-group-label">Measures</div>
                 <div id="measure-list" class="field-list"></div>
               </div>
+              <button id="btn-add-calc-field" class="btn btn-secondary btn-sm" style="margin-top:12px;width:100%;justify-content:center;">
+                + Add Calculated Field
+              </button>
             </div>
           </div>
 
@@ -337,6 +340,29 @@
       </div>
       <div class="modal-body">
         <div class="sample-grid" id="sample-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Calculated Field Modal -->
+  <div id="modal-calc-field" class="modal-overlay" style="display:none;">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h2>Create Calculated Field</h2>
+        <button class="modal-close" data-modal="modal-calc-field">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="config-group">
+          <label class="config-label">Field Name</label>
+          <input type="text" id="calc-field-name" class="select-input" placeholder="e.g., Profit Margin" />
+        </div>
+        <div class="config-group" style="margin-top:16px;">
+          <label class="config-label">Formula expression</label>
+          <p class="settings-desc">Wrap existing field names in brackets, e.g., <code>[Sales] - [Cost]</code></p>
+          <textarea id="calc-field-expr" class="paste-textarea" style="min-height:100px;font-size:14px;" placeholder="[Sales] / [Quantity] * 100"></textarea>
+        </div>
+        <div id="calc-field-error" style="color:var(--danger);font-size:12px;margin-top:8px;"></div>
+        <button id="btn-save-calc-field" class="btn btn-primary" style="margin-top:16px;width:100%;justify-content:center;">Create Field</button>
       </div>
     </div>
   </div>

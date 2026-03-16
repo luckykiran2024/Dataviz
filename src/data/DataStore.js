@@ -17,13 +17,68 @@ class DataStore {
   /* ---- Add Dataset ---- */
   addDataset(name, rows) {
     const fields = this._inferFields(rows);
-    const dataset = { name, rows, fields, originalRows: [...rows] };
+    const dataset = { name, rows, fields, originalRows: [...rows], calculatedFields: [] };
     this.datasets.set(name, dataset);
     this.activeDataset = name;
     this.filters = [];
     this.emit('dataset-added', { name, dataset });
     this.emit('active-changed', { name, dataset });
     return dataset;
+  }
+
+  /* ---- Calculated Fields ---- */
+  addCalculatedField(name, expression) {
+    const ds = this.getActive();
+    if (!ds) return;
+
+    // Check if name exists
+    if (ds.fields.some(f => f.name === name)) {
+      throw new Error(`Field name "${name}" already exists.`);
+    }
+
+    // Attempt to evaluate for the first row to validate expression
+    // Create a safe evaluator
+    try {
+      this._evaluateExpression(expression, ds.originalRows[0] || {});
+    } catch(err) {
+      throw new Error(`Invalid expression: ${err.message}`);
+    }
+
+    // Apply to all rows
+    for (const row of ds.originalRows) {
+      row[name] = this._evaluateExpression(expression, row);
+    }
+    for (const row of ds.rows) {
+      row[name] = this._evaluateExpression(expression, row);
+    }
+
+    // Add to fields
+    ds.fields.push({ name, type: 'number', role: 'measure', isCalculated: true, expression });
+    ds.calculatedFields.push({ name, expression });
+
+    this.emit('dataset-updated', { name: this.activeDataset, dataset: ds });
+  }
+
+  _evaluateExpression(expr, rowContext) {
+    // Replace field names wrapped in brackets [Field Value] with their actual values
+    // Using a regex to find all [Field Name]
+    let parsedExpr = expr.replace(/\[([^\]]+)\]/g, (match, fieldName) => {
+      const val = rowContext[fieldName];
+      // If the value is missing or NaN, replace with 0
+      const num = parseFloat(val);
+      return isNaN(num) ? 0 : num;
+    });
+
+    try {
+      // Evaluate the simplified math string
+      // Note: using Function is generally unsafe for arbitrary user input on a server,
+      // but in a client-side visualization tool, it's an acceptable way to build a quick formula engine
+      // provided we are just evaluating math math
+      const result = new Function(`return ${parsedExpr}`)();
+      return isFinite(result) ? result : null;
+    } catch (e) {
+      throw new Error("Syntax Error in formula.");
+    }
   }
 
   /* ---- Get Active Dataset ---- */

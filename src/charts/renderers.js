@@ -602,6 +602,45 @@ export function renderPivotTable(container, data) {
   wrapper.className = 'pivot-table-container';
   wrapper.appendChild(table);
 
+  // Export Button
+  const exportBtn = document.createElement('button');
+  exportBtn.className = 'btn btn-secondary btn-sm';
+  exportBtn.style.position = 'absolute';
+  exportBtn.style.top = '12px';
+  exportBtn.style.right = '12px';
+  exportBtn.style.zIndex = '10';
+  exportBtn.innerHTML = '<svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/></svg> Export CSV';
+  
+  exportBtn.addEventListener('click', () => {
+    // Build CSV Data structure
+    const csvData = [];
+    const headers = [];
+    if (rows.length > 0) headers.push('Group / Category');
+    columns.forEach(c => headers.push(c.label || 'Value'));
+    csvData.push(headers);
+
+    for (let i = 0; i < rowCount; i++) {
+      const rowArr = [];
+      if (rows.length > 0) rowArr.push(rows[i] || '');
+      columns.forEach(c => rowArr.push(c.data[i] ?? ''));
+      csvData.push(rowArr);
+    }
+
+    import('papaparse').then(Papa => {
+      const csvString = Papa.default.unparse(csvData);
+      const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'pivot_export.csv');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+  });
+
+  container.style.position = 'relative'; // Ensure button positions correctly
+  container.appendChild(exportBtn);
   container.appendChild(wrapper);
 }
 

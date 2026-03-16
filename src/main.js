@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupSettingsModal();
   setupPredictivePanel();
   setupPrescriptivePanel();
+  setupCalcFieldModal();
 });
 
 /* ============================================================
@@ -62,6 +63,44 @@ function setupToolbar() {
   $('#btn-export').addEventListener('click', () => showModal('modal-export'));
   $('#btn-settings').addEventListener('click', () => showModal('modal-settings'));
   $('#btn-theme').addEventListener('click', toggleTheme);
+}
+
+/* ============================================================
+   CALCULATED FIELDS MODAL
+   ============================================================ */
+function setupCalcFieldModal() {
+  $('#btn-add-calc-field').addEventListener('click', () => {
+    if (!dataStore.getActive()) {
+      toast('Load data first', 'info');
+      return;
+    }
+    $('#calc-field-name').value = '';
+    $('#calc-field-expr').value = '';
+    $('#calc-field-error').textContent = '';
+    showModal('modal-calc-field');
+  });
+
+  $('#btn-save-calc-field').addEventListener('click', () => {
+    const name = $('#calc-field-name').value.trim();
+    const expr = $('#calc-field-expr').value.trim();
+    const errorEl = $('#calc-field-error');
+    errorEl.textContent = '';
+
+    if (!name || !expr) {
+      errorEl.textContent = 'Both name and expression are required.';
+      return;
+    }
+
+    try {
+      dataStore.addCalculatedField(name, expr);
+      hideModal('modal-calc-field');
+      toast(`Created calculated field: ${name}`, 'success');
+      // Force a UI refresh of the field list since dataset mutated
+      populateFieldLists(dataStore.getActive().fields);
+    } catch (err) {
+      errorEl.textContent = err.message;
+    }
+  });
 }
 
 /* ============================================================
