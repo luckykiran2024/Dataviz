@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DataViz Pro — Interactive Data Visualization</title>
+  <meta name="description" content="A powerful data visualization and dashboarding tool for creating stunning interactive charts and reports." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/styles/index.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Top Toolbar -->
+    <header id="toolbar" class="toolbar">
+      <div class="toolbar-left">
+        <div class="logo">
+          <svg class="logo-icon" viewBox="0 0 32 32" fill="none">
+            <defs>
+              <linearGradient id="logoGrad" x1="0" y1="0" x2="32" y2="32">
+                <stop offset="0%" stop-color="#6366f1"/>
+                <stop offset="100%" stop-color="#a855f7"/>
+              </linearGradient>
+            </defs>
+            <rect rx="6" width="32" height="32" fill="url(#logoGrad)"/>
+            <path d="M8 22V14M13 22V10M18 22V16M23 22V12" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <span class="logo-text">DataViz <span class="logo-accent">Pro</span></span>
+        </div>
+      </div>
+      <div class="toolbar-center">
+        <button id="btn-import" class="tb-btn" title="Import Data">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path d="M10 2a1 1 0 011 1v5.586l2.293-2.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 8.586V3a1 1 0 011-1z"/><path d="M3 14a1 1 0 011 1v1a1 1 0 001 1h10a1 1 0 001-1v-1a1 1 0 112 0v1a3 3 0 01-3 3H5a3 3 0 01-3-3v-1a1 1 0 011-1z"/></svg>
+          <span>Import</span>
+        </button>
+        <button id="btn-sample-data" class="tb-btn" title="Load Sample Data">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 5a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V9zm0 5a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2z"/></svg>
+          <span>Sample Data</span>
+        </button>
+        <div class="tb-divider"></div>
+        <button id="btn-add-chart" class="tb-btn tb-btn-primary" title="Add Chart">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"/></svg>
+          <span>Add Chart</span>
+        </button>
+        <div class="tb-divider"></div>
+        <button id="btn-filters" class="tb-btn" title="Filters">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd"/></svg>
+          <span>Filters</span>
+        </button>
+        <button id="btn-export" class="tb-btn" title="Export Dashboard">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path d="M10 18a1 1 0 01-1-1v-5.586l-2.293 2.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 11.414V17a1 1 0 01-1 1z"/><path d="M3 6a1 1 0 011-1h1a1 1 0 010 2H5v9h10V7h-1a1 1 0 110-2h1a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V7a1 1 0 010-1z"/></svg>
+          <span>Export</span>
+        </button>
+      </div>
+      <div class="toolbar-right">
+        <button id="btn-settings" class="tb-btn tb-btn-icon" title="Settings">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="20" height="20"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/></svg>
+        </button>
+        <button id="btn-theme" class="tb-btn tb-btn-icon" title="Toggle Theme">
+          <svg id="icon-theme" viewBox="0 0 20 20" fill="currentColor" width="20" height="20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="main-layout">
+      <!-- Left Sidebar -->
+      <aside id="sidebar" class="sidebar">
+        <div class="sidebar-inner">
+          <!-- Dataset Section -->
+          <div class="sidebar-section" id="section-dataset">
+            <div class="section-header">
+              <h3>Dataset</h3>
+            </div>
+            <div class="section-body">
+              <select id="dataset-select" class="select-input">
+                <option value="">— No data loaded —</option>
+              </select>
+              <div class="dataset-info" id="dataset-info" style="display:none;">
+                <span id="dataset-rows">0 rows</span> × <span id="dataset-cols">0 columns</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fields Section -->
+          <div class="sidebar-section" id="section-fields">
+            <div class="section-header">
+              <h3>Fields</h3>
+            </div>
+            <div class="section-body">
+              <div class="field-group">
+                <div class="field-group-label">Dimensions</div>
+                <div id="dimension-list" class="field-list"></div>
+              </div>
+              <div class="field-group">
+                <div class="field-group-label">Measures</div>
+                <div id="measure-list" class="field-list"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chart Config Section -->
+          <div class="sidebar-section" id="section-chart-config">
+            <div class="section-header">
+              <h3>Chart Config</h3>
+            </div>
+            <div class="section-body">
+              <!-- Chart Type Picker -->
+              <div class="config-group">
+                <label class="config-label">Chart Type</label>
+                <div id="chart-type-grid" class="chart-type-grid"></div>
+              </div>
+
+              <!-- Field Shelves -->
+              <div class="config-group">
+                <label class="config-label">X-Axis / Category</label>
+                <div id="shelf-x" class="field-shelf" data-shelf="x">
+                  <span class="shelf-placeholder">Drag a field here</span>
+                </div>
+              </div>
+              <div class="config-group">
+                <label class="config-label">Y-Axis / Value</label>
+                <div id="shelf-y" class="field-shelf" data-shelf="y">
+                  <span class="shelf-placeholder">Drag a field here</span>
+                </div>
+              </div>
+              <div class="config-group">
+                <label class="config-label">Color / Group</label>
+                <div id="shelf-color" class="field-shelf" data-shelf="color">
+                  <span class="shelf-placeholder">Drag a field here</span>
+                </div>
+              </div>
+              <div class="config-group">
+                <label class="config-label">Size</label>
+                <div id="shelf-size" class="field-shelf" data-shelf="size">
+                  <span class="shelf-placeholder">Drag a field here</span>
+                </div>
+              </div>
+
+              <!-- Aggregation -->
+              <div class="config-group">
+                <label class="config-label">Aggregation</label>
+                <select id="aggregation-select" class="select-input">
+                  <option value="SUM">SUM</option>
+                  <option value="AVG">AVG</option>
+                  <option value="COUNT">COUNT</option>
+                  <option value="MIN">MIN</option>
+                  <option value="MAX">MAX</option>
+                  <option value="MEDIAN">MEDIAN</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Canvas -->
+      <main id="canvas" class="canvas">
+        <!-- Welcome State -->
+        <div id="welcome-screen" class="welcome-screen">
+          <div class="welcome-content">
+            <div class="welcome-icon">
+              <svg viewBox="0 0 80 80" fill="none" width="80" height="80">
+                <defs>
+                  <linearGradient id="welcomeGrad" x1="0" y1="0" x2="80" y2="80">
+                    <stop offset="0%" stop-color="#6366f1"/>
+                    <stop offset="50%" stop-color="#a855f7"/>
+                    <stop offset="100%" stop-color="#ec4899"/>
+                  </linearGradient>
+                </defs>
+                <rect rx="16" width="80" height="80" fill="url(#welcomeGrad)" opacity="0.15"/>
+                <path d="M20 55V35M30 55V25M40 55V40M50 55V30M60 55V45" stroke="url(#welcomeGrad)" stroke-width="4" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h1 class="welcome-title">Welcome to DataViz Pro</h1>
+            <p class="welcome-subtitle">Import your data or load a sample dataset to start creating stunning visualizations</p>
+            <div class="welcome-actions">
+              <button id="welcome-import" class="btn btn-primary btn-lg">
+                <svg viewBox="0 0 20 20" fill="currentColor" width="20" height="20"><path d="M10 2a1 1 0 011 1v5.586l2.293-2.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 8.586V3a1 1 0 011-1z"/><path d="M3 14a1 1 0 011 1v1a1 1 0 001 1h10a1 1 0 001-1v-1a1 1 0 112 0v1a3 3 0 01-3 3H5a3 3 0 01-3-3v-1a1 1 0 011-1z"/></svg>
+                Import Data
+              </button>
+              <button id="welcome-sample" class="btn btn-secondary btn-lg">
+                <svg viewBox="0 0 20 20" fill="currentColor" width="20" height="20"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 5a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V9zm0 5a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2z"/></svg>
+                Load Sample Data
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analytics Tab Bar (hidden until data loaded) -->
+        <div id="analytics-tabs" class="analytics-tabs" style="display:none;">
+          <button class="analytics-tab active" data-tab="dashboard">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 5a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1V9zm9 0a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1V9z"/></svg>
+            Dashboard
+          </button>
+          <button class="analytics-tab" data-tab="predictive">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+            Predictive
+          </button>
+          <button class="analytics-tab" data-tab="prescriptive">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            Prescriptive
+          </button>
+          <div class="analytics-tab-badge" id="ai-badge">
+            <span class="ai-badge-dot"></span> Gemini Pro
+          </div>
+        </div>
+
+        <!-- Dashboard Grid (hidden until data loaded) -->
+        <div id="dashboard-grid" class="grid-stack" style="display:none;"></div>
+
+        <!-- Predictive Analytics Panel -->
+        <div id="panel-predictive" class="analytics-panel" style="display:none;">
+          <div class="analytics-panel-inner">
+            <div class="analytics-actions-row">
+              <button class="analytics-action-card" id="btn-trend-forecast">
+                <div class="action-card-icon">📈</div>
+                <div class="action-card-info">
+                  <strong>Trend Forecast</strong>
+                  <span>Predict future values based on data patterns</span>
+                </div>
+              </button>
+              <button class="analytics-action-card" id="btn-anomaly-detect">
+                <div class="action-card-icon">🔍</div>
+                <div class="action-card-info">
+                  <strong>Anomaly Detection</strong>
+                  <span>Find outliers and unusual patterns</span>
+                </div>
+              </button>
+              <button class="analytics-action-card" id="btn-data-overview">
+                <div class="action-card-icon">📊</div>
+                <div class="action-card-info">
+                  <strong>Data Overview</strong>
+                  <span>Comprehensive dataset analysis</span>
+                </div>
+              </button>
+            </div>
+            <div class="analytics-result" id="predictive-result"></div>
+            <div class="analytics-chat">
+              <div class="chat-header">
+                <h3>💬 Ask Your Data</h3>
+                <span class="chat-subtitle">Ask any question about your dataset in natural language</span>
+              </div>
+              <div class="chat-messages" id="chat-messages"></div>
+              <div class="chat-input-row">
+                <input type="text" id="chat-input" class="chat-input" placeholder="e.g., Which region has the highest revenue?" />
+                <button id="btn-chat-send" class="btn btn-primary">
+                  <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prescriptive Analytics Panel -->
+        <div id="panel-prescriptive" class="analytics-panel" style="display:none;">
+          <div class="analytics-panel-inner">
+            <div class="analytics-actions-row">
+              <button class="analytics-action-card" id="btn-recommendations">
+                <div class="action-card-icon">💡</div>
+                <div class="action-card-info">
+                  <strong>AI Recommendations</strong>
+                  <span>Get actionable insights and suggested actions</span>
+                </div>
+              </button>
+              <button class="analytics-action-card" id="btn-optimization">
+                <div class="action-card-icon">⚡</div>
+                <div class="action-card-info">
+                  <strong>Optimization</strong>
+                  <span>Find performance gaps and improvement areas</span>
+                </div>
+              </button>
+            </div>
+            <div class="analytics-result" id="prescriptive-result"></div>
+            <div class="whatif-section">
+              <div class="whatif-header">
+                <h3>🔮 What-If Analysis</h3>
+                <span class="chat-subtitle">Describe a scenario to project outcomes</span>
+              </div>
+              <div class="whatif-input-row">
+                <textarea id="whatif-input" class="whatif-input" placeholder="e.g., What if revenue in North America increases by 25%?&#10;What if we stop selling in Latin America?&#10;What if we increase prices by 10%?"></textarea>
+                <button id="btn-whatif" class="btn btn-primary">Analyze Scenario</button>
+              </div>
+              <div class="analytics-result" id="whatif-result"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Import Modal -->
+  <div id="modal-import" class="modal-overlay" style="display:none;">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Import Data</h2>
+        <button class="modal-close" data-modal="modal-import">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="import-tabs">
+          <button class="import-tab active" data-tab="file">File Upload</button>
+          <button class="import-tab" data-tab="paste">Paste Data</button>
+        </div>
+        <div class="import-tab-content" id="tab-file">
+          <div class="file-drop-zone" id="file-drop-zone">
+            <svg viewBox="0 0 48 48" fill="none" width="48" height="48">
+              <path d="M24 4L14 14h7v12h6V14h7L24 4z" fill="currentColor" opacity="0.3"/>
+              <path d="M8 30v10a4 4 0 004 4h24a4 4 0 004-4V30" stroke="currentColor" stroke-width="2" fill="none"/>
+            </svg>
+            <p>Drag & drop a <strong>CSV</strong> or <strong>JSON</strong> file here</p>
+            <span class="drop-zone-or">or</span>
+            <button class="btn btn-secondary" id="btn-browse-file">Browse Files</button>
+            <input type="file" id="file-input" accept=".csv,.json,.tsv" style="display:none;" />
+          </div>
+        </div>
+        <div class="import-tab-content" id="tab-paste" style="display:none;">
+          <textarea id="paste-data" class="paste-textarea" placeholder="Paste CSV or JSON data here..."></textarea>
+          <button class="btn btn-primary" id="btn-parse-paste" style="margin-top:12px;">Parse Data</button>
+        </div>
+        <div id="import-preview" class="import-preview" style="display:none;">
+          <h3>Preview</h3>
+          <div class="preview-table-wrap">
+            <table id="preview-table" class="preview-table"></table>
+          </div>
+          <button class="btn btn-primary" id="btn-confirm-import" style="margin-top:12px;">Import Dataset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sample Data Modal -->
+  <div id="modal-sample" class="modal-overlay" style="display:none;">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Sample Datasets</h2>
+        <button class="modal-close" data-modal="modal-sample">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="sample-grid" id="sample-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Panel -->
+  <div id="filter-panel" class="filter-panel" style="display:none;">
+    <div class="filter-panel-header">
+      <h3>Filters</h3>
+      <button id="btn-close-filters" class="modal-close">&times;</button>
+    </div>
+    <div id="filter-list" class="filter-list"></div>
+    <button id="btn-add-filter" class="btn btn-secondary" style="margin-top:12px;">+ Add Filter</button>
+  </div>
+
+  <!-- Export Modal -->
+  <div id="modal-export" class="modal-overlay" style="display:none;">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h2>Export Dashboard</h2>
+        <button class="modal-close" data-modal="modal-export">&times;</button>
+      </div>
+      <div class="modal-body">
+        <button class="export-option" id="btn-export-json">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 2l5 5h-5V4zM6 20V4h5v7h7v9H6z"/></svg>
+          <div>
+            <strong>Export as JSON</strong>
+            <span>Save dashboard configuration for later</span>
+          </div>
+        </button>
+        <button class="export-option" id="btn-export-png">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M21 19V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2zM8.5 13.5l2.5 3 3.5-4.5 4.5 6H5l3.5-4.5z"/></svg>
+          <div>
+            <strong>Export as PNG</strong>
+            <span>Download current view as image</span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="modal-settings" class="modal-overlay" style="display:none;">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h2>⚙️ Settings</h2>
+        <button class="modal-close" data-modal="modal-settings">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="settings-section">
+          <label class="config-label">Google AI API Key</label>
+          <p class="settings-desc">Get your free API key from <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" style="color:var(--primary);">Google AI Studio</a></p>
+          <div class="settings-key-row">
+            <input type="password" id="settings-api-key" class="select-input" placeholder="Enter your Gemini API key" />
+            <button id="btn-toggle-key" class="chart-panel-btn" title="Show/Hide">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>
+            </button>
+          </div>
+          <button id="btn-save-key" class="btn btn-primary btn-sm" style="margin-top:10px;">Save API Key</button>
+          <div id="key-status" class="settings-key-status"></div>
+        </div>
+        <div class="settings-section" style="margin-top:20px;">
+          <label class="config-label">AI Model</label>
+          <div class="settings-model-info">
+            <span class="ai-badge-dot"></span>
+            <span>Google Gemini 1.5 Pro — Free tier: 60 requests/minute</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

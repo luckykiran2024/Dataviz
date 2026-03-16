@@ -1,0 +1,24 @@
+{
+  "name": "dataviz-pro",
+  "version": "1.0.0",
+  "description": "A rich data visualization and dashboarding tool",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "chart.js": "^4.4.0",
+    "chartjs-plugin-datalabels": "^2.2.0",
+    "d3": "^7.8.5",
+    "gridstack": "^10.1.0",
+    "papaparse": "^5.4.1"
+  },
+  "devDependencies": {
+    "jsdom": "^29.0.0",
+    "puppeteer": "^24.39.1",
+    "vite": "^3.2.0"
+  }
+}
