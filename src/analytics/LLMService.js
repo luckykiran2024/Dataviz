@@ -6,7 +6,7 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const API_KEY_STORAGE = 'dataviz-gemini-api-key';
-const MODEL_NAME = 'gemini-3.0';
+const MODEL_NAME = 'gemini-1.5-pro';
 
 class LLMService {
   constructor() {
